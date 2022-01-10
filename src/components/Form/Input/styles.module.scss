@@ -1,0 +1,13 @@
+.container {
+  padding: 1.5rem 0.5rem;
+  outline: none;
+  border: none;
+  border-radius: 1.7rem;
+  width: 100%;
+  background: var(--gray-200);
+  font-size: 1rem;
+
+  &:focus {
+    background: var(--gray-100);
+  }
+}
