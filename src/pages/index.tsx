@@ -1,8 +1,8 @@
+import styles from '../styles/login.module.scss';
+import { FormEvent } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-import styles from '../styles/home.module.scss';
-import { FormEvent } from 'react';
 
 import { Input } from '../components/Form/Input';
 import { Button } from '../components/Form/Button';
@@ -10,7 +10,7 @@ import { Button } from '../components/Form/Button';
 import principalImg from '../assets/principal.svg';
 import logoImg from '../assets/logo.svg';
 
-export default function Home() {
+export default function Login() {
   function handleSubmit(event: FormEvent) {
     event.preventDefault();
   }

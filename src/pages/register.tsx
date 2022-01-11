@@ -1,8 +1,7 @@
+import styles from '../styles/register.module.scss';
+import { FormEvent } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
-import Link from 'next/link';
-import styles from '../styles/home.module.scss';
-import { FormEvent } from 'react';
 
 import { Input } from '../components/Form/Input';
 import { Button } from '../components/Form/Button';
