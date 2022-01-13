@@ -1,13 +1,26 @@
 .container {
-  padding: 1.5rem 0.5rem;
-  outline: none;
-  border: none;
-  border-radius: 1.7rem;
   width: 100%;
-  background: var(--gray-200);
-  font-size: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
+  input {
+    padding: 1.3rem 0.5rem;
+    outline: none;
+    border: none;
+    border-radius: 1.7rem;
+    background: var(--gray-200);
+    font-size: 1rem;
+    
+    &:focus {
+      background: var(--gray-100);
+    }
+  }
 
-  &:focus {
-    background: var(--gray-100);
+  p {
+    margin-top: 0.2rem;
+    color: var(--red-500);
+    font-weight: bold;
   }
 }

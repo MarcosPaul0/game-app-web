@@ -1,5 +1,6 @@
-import styles from '../styles/login.module.scss';
-import { FormEvent } from 'react';
+import { FormEvent, useContext, useState } from 'react';
+import { AuthContext } from '../contexts/AuthContext';
+import { ToastContainer } from 'react-toastify';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -7,12 +8,24 @@ import Link from 'next/link';
 import { Input } from '../components/Form/Input';
 import { Button } from '../components/Form/Button';
 
+import styles from '../styles/login.module.scss';
 import principalImg from '../assets/principal.svg';
 import logoImg from '../assets/logo.svg';
+import { withSSRGuest } from '../utils/withSSRGuest';
 
 export default function Login() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const { signIn } = useContext(AuthContext);
+
   function handleSubmit(event: FormEvent) {
     event.preventDefault();
+
+    signIn({
+      email,
+      password
+    });
   }
 
   return (
@@ -28,15 +41,19 @@ export default function Login() {
           <Image src={principalImg} />
         </div>
         <div className={styles.formContainer}>
-          <form>
+          <form className={styles.formContainer}>
             <Image src={logoImg} height={90} />
             <Input 
               type="email"
               placeholder="Email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
             />
             <Input 
               type="password"
               placeholder="Senha"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
             /> 
             <Button 
               text="Entrar"
@@ -47,6 +64,14 @@ export default function Login() {
           </form>
         </div>
       </main>
+    
+      <ToastContainer />
     </>
   )
 }
+
+export const getServerSideProps = withSSRGuest(async (ctx) => {
+  return {
+    props: {}
+  }
+});

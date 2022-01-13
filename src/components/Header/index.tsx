@@ -4,12 +4,16 @@ import Image from 'next/image';
 import { AiOutlineMenu } from 'react-icons/ai';
 import { BsSearch } from 'react-icons/bs';
 import logoImg from '../../assets/logo.svg';
+import { AuthContext } from '../../contexts/AuthContext';
+import { memo, useContext } from 'react';
 
 interface HeaderProps {
   toggleMenu: () => void;
 }
 
 export function Header({ toggleMenu }: HeaderProps) {
+  const { user, signOut } = useContext(AuthContext);
+
   return (
     <header className={styles.container}>
       <div className={styles.firstContent}>
@@ -28,11 +32,19 @@ export function Header({ toggleMenu }: HeaderProps) {
       </form>
       <div className={styles.lastContent}>
         <div className={styles.text}>
-          <span>Marcos</span>
-          <button>Sair</button>
+          <span>{user?.name}</span>
+          <button
+            onClick={signOut}
+          >
+            Sair
+          </button>
         </div>
         <div className={styles.avatar}>
-          <span>M</span>
+          { user?.avatar_url ? (
+            <img src={user?.avatar_url} />
+          ) : (
+            <span>{user?.name.slice(0, 1)}</span>
+          )}
         </div>
       </div>
     </header>
