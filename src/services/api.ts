@@ -22,22 +22,24 @@ export function setupAPIClient(ctx = undefined) {
     if(error.response.status === 401) {
       if(error.response.data?.code === 'expired.token') {
         cookies = parseCookies(ctx);
-
-        const { 'zombieGames.refreshToken': refreshToken } = cookies;
+        
+        const { 'zombieGames.refreshToken': refreshTokenId } = cookies;
         const originalConfig = error.config;
-
+        
         if(!isRefreshing) {
           isRefreshing = true;
-
-          api.post('/users/refreshToken', {
-            refreshToken
+          
+          api.post('/refreshToken', {
+            refreshTokenId
           }).then(response => {
             const { token, 'refreshToken': newRefreshToken } = response.data;
-
+            
             setCookie(ctx, 'zombieGames.token', token, {
               maxAge: 60 * 60 * 15,
               path: '/'
             });
+
+            api.defaults.headers['Authorization'] = `Bearer ${token}`;
 
             if(newRefreshToken) {
               setCookie(ctx, 'zombieGames.refreshToken', newRefreshToken.id, {
@@ -45,8 +47,6 @@ export function setupAPIClient(ctx = undefined) {
                 path: '/'
               })
             }
-
-            api.defaults.headers['Authorization'] = `Bearer ${token}`;
 
             failedRequestsQueue.forEach(request => request.onSuccess(token));
             failedRequestsQueue = [];

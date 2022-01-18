@@ -5,15 +5,15 @@ import Head from 'next/head';
 
 import { Header } from '../components/Header';
 import { NavBar } from '../components/NavBar';
-import { AssessmentList } from '../components/AssessmentList';
+import { GameList } from '../components/GameList';
 
-export default function Home() {
+export default function Game() {
   const [navBarIsActive, setNavBarIsActive] = useState(false);
 
   return (
     <>
       <Head>
-        <title>Zombie Games | Home</title>
+        <title>Zombie Games | Meus Jogos</title>
       </Head>
 
       <main className={styles.container}>
@@ -23,7 +23,7 @@ export default function Home() {
         
         <div className={styles.content}>
           { navBarIsActive && <NavBar /> }
-          <AssessmentList />
+          <GameList />
         </div>
       </main>
     </>
@@ -34,4 +34,6 @@ export const getServerSideProps = withSSRAuth(async (ctx) => {
   return {
     props: {}
   }
-}, {});
+}, {
+  isDeveloper: true
+});

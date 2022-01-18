@@ -1,11 +1,11 @@
+import { AuthContext } from '../../contexts/AuthContext';
+import { useContext } from 'react';
 import styles from './styles.module.scss';
 import Image from 'next/image';
 
 import { AiOutlineMenu } from 'react-icons/ai';
 import { BsSearch } from 'react-icons/bs';
 import logoImg from '../../assets/logo.svg';
-import { AuthContext } from '../../contexts/AuthContext';
-import { memo, useContext } from 'react';
 
 interface HeaderProps {
   toggleMenu: () => void;
@@ -13,6 +13,8 @@ interface HeaderProps {
 
 export function Header({ toggleMenu }: HeaderProps) {
   const { user, signOut } = useContext(AuthContext);
+
+  console.log(user);
 
   return (
     <header className={styles.container}>

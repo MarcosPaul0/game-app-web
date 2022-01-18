@@ -1,6 +1,8 @@
 import { FormEvent, useContext, useState } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 import { ToastContainer } from 'react-toastify';
+import { withSSRGuest } from '../utils/withSSRGuest';
+import styles from '../styles/login.module.scss';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -8,10 +10,8 @@ import Link from 'next/link';
 import { Input } from '../components/Form/Input';
 import { Button } from '../components/Form/Button';
 
-import styles from '../styles/login.module.scss';
 import principalImg from '../assets/principal.svg';
 import logoImg from '../assets/logo.svg';
-import { withSSRGuest } from '../utils/withSSRGuest';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -40,6 +40,7 @@ export default function Login() {
           <h2>Avalie e indique jogos</h2>
           <Image src={principalImg} />
         </div>
+   
         <div className={styles.formContainer}>
           <form className={styles.formContainer}>
             <Image src={logoImg} height={90} />
@@ -67,7 +68,7 @@ export default function Login() {
     
       <ToastContainer />
     </>
-  )
+  );
 }
 
 export const getServerSideProps = withSSRGuest(async (ctx) => {

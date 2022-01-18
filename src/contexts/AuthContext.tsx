@@ -1,4 +1,3 @@
-import { AxiosError } from "axios";
 import Router from "next/router";
 import { destroyCookie, parseCookies, setCookie } from "nookies";
 import { createContext, ReactNode, useEffect, useState } from "react";
@@ -22,7 +21,6 @@ interface AuthContextData {
   signOut: () => void;
   isAuthenticated: boolean;
   user: User | null;
-  setUser: (user: User) => void;
 }
 
 export const AuthContext = createContext({} as AuthContextData);
@@ -38,18 +36,21 @@ export function AuthContextProvider({ children }: AuthContextProvider) {
   const { errorNotify } = useNotify();
 
   useEffect(() => {
-    const { 'zombieGames.token': token } = parseCookies();
-
-    if(token) {
-      api.get('/users/me')
-        .then(response => {
-          const { user } = response.data;
-
-          setUser(user);
-
-          Router.push('/home');
-        })
-        .catch(() => signOut());
+    if(!isAuthenticated) {
+      const { 'zombieGames.token': token } = parseCookies();
+      
+      if(token) {
+        api.get('/users/me')
+          .then(response => {
+            setUser(response.data);
+            console.log(response.data, 1)
+  
+            if(Router.pathname === '/') {
+              Router.push('/home');
+            }
+          })
+          .catch(() => signOut());
+      }
     }
   }, []);
 
@@ -69,11 +70,11 @@ export function AuthContextProvider({ children }: AuthContextProvider) {
         password,
       });
 
-      const { token, refreshToken, user } = response.data;
+      const { token, refreshToken, 'user': profile } = response.data;
       
       api.defaults.headers['Authorization'] = `Bearer ${token}`;
       
-      setUser(user);
+      setUser(profile);
 
       setCookie(undefined, 'zombieGames.token', token, {
         maxAge: 60 * 60 * 15,
@@ -94,7 +95,7 @@ export function AuthContextProvider({ children }: AuthContextProvider) {
   }
 
   return (
-    <AuthContext.Provider value={{ signIn, signOut, isAuthenticated, user, setUser }}>
+    <AuthContext.Provider value={{ signIn, signOut, isAuthenticated, user }}>
       { children }
     </AuthContext.Provider>
   );

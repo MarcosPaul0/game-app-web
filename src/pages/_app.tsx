@@ -1,5 +1,5 @@
-import '../styles/globals.scss'
-import type { AppProps } from 'next/app'
+import '../styles/globals.scss';
+import type { AppProps } from 'next/app';
 import { AuthContextProvider } from '../contexts/AuthContext';
 
 export default function MyApp({ Component, pageProps }: AppProps) {
@@ -7,5 +7,5 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     <AuthContextProvider>
       <Component {...pageProps} />
     </AuthContextProvider>
-  )
+  );
 }
